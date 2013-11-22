@@ -1,5 +1,7 @@
 package receiver;
 
+import gui.window;
+
 public class Engine {
 
 	private int cursor;
@@ -26,7 +28,6 @@ public class Engine {
 	public Selection getSelection() {
 		return selection;
 	}
-	
 	public void setSelection(Selection selection) {
 		this.selection = selection;
 	}
@@ -61,7 +62,10 @@ public class Engine {
 		}
 
 	}
-	
+	public void select(int start, int length)
+	{
+		selection.setSelection(start, length);
+	}
 	public void copy()// teste ok
 	{
 		if(selection.getLength()!=0){
@@ -105,6 +109,6 @@ public class Engine {
 		e.getSelection().setSelection(0, 0);
 		String getxt = e.getSelectedText();
 		System.out.println(getxt);
+		window w = new window();
 	}
-	
 }
