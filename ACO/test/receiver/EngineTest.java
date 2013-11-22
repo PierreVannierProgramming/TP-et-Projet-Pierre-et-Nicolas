@@ -1,14 +1,11 @@
 package receiver;
 
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-import receiver.Buffer;
+import receiver.Engine;
 
 public class EngineTest extends Engine {
 	private Engine engine;
@@ -60,16 +57,7 @@ public class EngineTest extends Engine {
 		getxt = engine.getBuffer().getText();
 		assertEquals(getxt, "azertyop");
 	}
-	@Test
-	public void select() {
-		int begin = 3;
-		int length = 2;
-		engine.getBuffer().addText("azertyuiop");
-		engine.select(begin, length);
-		Selection sel = engine.getSelection();
-		assertEquals(begin, sel.getStart());
-		assertEquals(length,sel.getLength());
-	}
+	
 	@Test
 	public void copy() {
 		String getxt;

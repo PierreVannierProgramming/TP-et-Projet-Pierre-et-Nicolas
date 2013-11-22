@@ -1,7 +1,5 @@
 package receiver;
 
-import gui.window;
-
 public class Engine {
 
 	private int cursor;
@@ -28,6 +26,7 @@ public class Engine {
 	public Selection getSelection() {
 		return selection;
 	}
+	
 	public void setSelection(Selection selection) {
 		this.selection = selection;
 	}
@@ -62,10 +61,7 @@ public class Engine {
 		}
 
 	}
-	public void select(int start, int length)
-	{
-		selection.setSelection(start, length);
-	}
+	
 	public void copy()// teste ok
 	{
 		if(selection.getLength()!=0){
@@ -103,12 +99,12 @@ public class Engine {
 		cursor += text.length();
 	}
 	
-	public static void main(){
-		Engine e = new Engine();
-		e.getBuffer().addText("azertyuiop");
-		e.getSelection().setSelection(0, 0);
-		String getxt = e.getSelectedText();
-		System.out.println(getxt);
-		window w = new window();
-	}
+//	public static void main(){
+//		Engine e = new Engine();
+//		e.getBuffer().addText("azertyuiop");
+//		e.getSelection().setSelection(0, 0);
+//		String getxt = e.getSelectedText();
+//		System.out.println(getxt);
+//	}
+	
 }
