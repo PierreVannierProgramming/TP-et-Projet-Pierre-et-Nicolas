@@ -21,7 +21,9 @@ public class Arret {
 	}
 	
 	public Navette getNav(int i) {
-		Navette n = listNav.get(i);
+		System.out.println("print i "+i);
+		System.out.println("print size i "+this.listNav.size());
+		Navette n = this.listNav.get(i);
 		 
 		System.out.println("test14");
 		return n;
@@ -37,6 +39,7 @@ public class Arret {
 	}
 	
 	public Navette partir(){
+		System.out.println("test101");
 		return this.listNav.remove(0);
 	}
 	
@@ -44,10 +47,16 @@ public class Arret {
 	
 	public boolean navettePleine(Festivalier client){
 		int i = 0;
-		while (this.getNav(i).getNbFestivalierCourant() == Navette.getNbmax() && i<getListNav().size()) {
-			i++;}
-		if (i==getListNav().size()){return true;}
-		else {return false;}
+		if (this.listNav.size() != 0){
+			System.out.println("print size i2 "+this.listNav.size());
+			while (this.getNav(i).getNbFestivalierCourant() == Navette.getNbmax() && i<getListNav().size()) {
+				i++;}
+			if (i==getListNav().size()){return true;}
+			else {return false;}
+		}
+		else {return true;}
+	
+			
 	}
 	
 	

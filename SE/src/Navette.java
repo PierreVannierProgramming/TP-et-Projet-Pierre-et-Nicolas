@@ -60,6 +60,7 @@ public class Navette extends Thread {
 			System.out.println("test7");
 			this.circuit[i].arret.partir();
 			i = (i + 1)%circuit.length;
+			System.out.println("test100");
 		}
 	}
 		
