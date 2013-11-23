@@ -4,7 +4,7 @@ class SystemeFestival {
 
 static final int nbSites = 7;
 static final int nbFestivalier = 100;
-static final int nbNavette = Navette.getNbmax();
+static final int nbNavette = 8;
 
 /* Ces attributs sont statiques */
 
@@ -68,13 +68,17 @@ SystemeFestival() {
 	/* Instanciation des navettes */
 	while(nouvelleNavette());
 	
+	
+	/* Lancement des threads associés aux clients */
+	for(i = 0; i < nbClients; i++)
+		clients[i].start();
+	
+	
 	/* Lancement des threads associés aux navettes */
 	for(i = 0; i < nbNav; i++)
 		navs[i].start();
 
-	/* Lancement des threads associés aux clients */
-	for(i = 0; i < nbClients; i++)
-		clients[i].start();
+	
 }
 
 /* Point d'entrée du programme */

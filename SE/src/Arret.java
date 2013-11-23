@@ -17,22 +17,23 @@ public class Arret {
 	
 	
 	public Arret (){
-		this.listNav = new ArrayList<>();
+		this.listNav = new ArrayList<Navette>();
 	}
 	
 	public Navette getNav(int i) {
-		return listNav.get(i);
+		Navette n = listNav.get(i);
+		 
+		System.out.println("test14");
+		return n;
 	}
 	
 	public ArrayList<Navette> getListNav() {
 		return listNav;
 	}
 	
-	public void garer(Navette nav){
+	public synchronized void garer(Navette nav){
 		this.listNav.add(nav);
-		System.out.println("test3");
 		notifyAll();
-		System.out.println("test5");
 	}
 	
 	public Navette partir(){

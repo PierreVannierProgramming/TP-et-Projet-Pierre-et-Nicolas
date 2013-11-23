@@ -46,8 +46,9 @@ public class Navette extends Thread {
 		int i = 0;
 		while(true){
 			this.circuit[i].arret.garer(this);
-			System.out.println("test4");
 			if (i == circuit.length-1){
+				System.out.println(this.getNbFestivalierCourant());
+				
 				decendreClient();
 			}
 			try {
@@ -56,6 +57,7 @@ public class Navette extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.println("test7");
 			this.circuit[i].arret.partir();
 			i = (i + 1)%circuit.length;
 		}

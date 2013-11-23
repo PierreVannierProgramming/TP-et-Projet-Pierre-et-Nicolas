@@ -34,7 +34,6 @@ public class  Festivalier extends Thread {
 	}
 	
 	public void run (){
-		
 		siteDepart.guichet.entrerG(this);
 		try {
 			Thread.sleep(10);
@@ -43,8 +42,11 @@ public class  Festivalier extends Thread {
 			e.printStackTrace();
 		}
 		if (siteDepart.getId() != SystemeFestival.nbSites-1){
+			System.out.println("test11");
 			siteDepart.arret.monterClient(this);
+			System.out.println("test12");
 		}
+		System.out.println("test13");
 	}
 	
 }
