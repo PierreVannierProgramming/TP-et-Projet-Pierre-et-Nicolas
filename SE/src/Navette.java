@@ -45,8 +45,8 @@ public class Navette extends Thread {
 	public void run (){
 		int i = 0;
 		while(true){
-			System.out.println("test");
 			this.circuit[i].arret.garer(this);
+			System.out.println("test4");
 			if (i == circuit.length-1){
 				decendreClient();
 			}

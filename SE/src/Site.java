@@ -20,7 +20,9 @@ class Site {
 	
 
 	public Site (int i){
-		this.id = i;		
+		this.id = i;
+		guichet = new Guichet();
+		arret = new Arret();
 		}
 	
 	public int getId() {

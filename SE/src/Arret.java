@@ -16,8 +16,8 @@ public class Arret {
 	
 	
 	
-	public Arret (ArrayList<Navette> liNav){
-		this.listNav = liNav;
+	public Arret (){
+		this.listNav = new ArrayList<>();
 	}
 	
 	public Navette getNav(int i) {
@@ -30,8 +30,9 @@ public class Arret {
 	
 	public void garer(Navette nav){
 		this.listNav.add(nav);
-		System.out.println(nav.getNbFestivalierCourant());
+		System.out.println("test3");
 		notifyAll();
+		System.out.println("test5");
 	}
 	
 	public Navette partir(){
