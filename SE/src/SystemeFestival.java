@@ -19,6 +19,9 @@ private int nbNav = 0;
  * Elle renvoie vrai si et seulement si un client a été créé.
  * Elle renvoie faux dès que la création des clients est terminée. */
 
+/**
+ * creation d'un nouveau festivalier, rend vrai si la creation à eu lieu, faux sinon
+ */
 private boolean nouveauClient() {
 
 	Site depart;
@@ -27,6 +30,7 @@ private boolean nouveauClient() {
 		System.out.println("Le nombre maximum de clients est atteint.");
 		return false;
 	}
+	//generation aleatoire d'un site pour les festivalier
 	int d = (int) Math.abs(Math.random() * nbSites);
 	depart = sites[d];
 
@@ -40,6 +44,9 @@ private boolean nouveauClient() {
  * Elle renvoie vrai si et seulement si une navette a été créé.
  * Elle renvoie faux dès que la création est terminée. */
 
+/**
+ * creation d'une nouvelle navette, rend vrai si la creation à eu lieu, faux sinon
+ */
 private boolean nouvelleNavette() {
 
 	if(nbNav == nbNavette) {
@@ -54,6 +61,10 @@ private boolean nouvelleNavette() {
 
 /* Constructeur. Il est appelé lors de l'instanciation du système d'emprunt. */
 
+/**
+ * systeme creant les sites, festivaliers et navettes,
+ * et lance les threads associé aux festivalers et aux navettes
+ */
 SystemeFestival() {
 
 	int i;
