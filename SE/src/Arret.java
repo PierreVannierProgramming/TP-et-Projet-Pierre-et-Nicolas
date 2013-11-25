@@ -1,15 +1,9 @@
-
 import java.util.ArrayList; 
 
 public class Arret {
-//	
-//	/**
-//	 * festivalier attendant une navette
-//	 */
-//	private ArrayList<Festivalier> listFest;
-//	
+
 	/**
-	 * navette en attente
+	 * liste des navettes en attente
 	 */
 	private ArrayList<Navette> listNav;
 	
@@ -31,15 +25,8 @@ public class Arret {
 	 * @param i
 	 * @return
 	 */
-	public synchronized Navette getNav(int i) {
-		System.out.println("print i "+i);
-		System.out.println("print size i "+this.listNav.size());
-		
-		
+	public Navette getNav(int i) {
 		Navette n = this.listNav.get(i);
-		 
-		
-		System.out.println("test14");
 		return n;
 	}
 	/**
@@ -56,8 +43,9 @@ public class Arret {
 	public void veutMonter(boolean test){
 		this.parcourList = test;
 	}
+	
 	/**
-	 * geter sur la liste des navettes
+	 * Getter sur la liste des navettes
 	 * @return
 	 */
 	public ArrayList<Navette> getListNav() {
@@ -69,9 +57,8 @@ public class Arret {
 	 * en s'ajoutant en fin de liste
 	 * @param nav
 	 */
-	public synchronized void garer(Navette nav){
+	public void garer(Navette nav){
 		this.listNav.add(nav);
-		notifyAll();
 	}
 	//cette listes de navette est une FIFO
 	/**
@@ -79,23 +66,9 @@ public class Arret {
 	 * en suprimant le premiere element de la liste
 	 * @return
 	 */
-	public synchronized void partir(){
-		System.out.println("test101");
-		while (getparcourList()){
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}}
+	public void partir(){
 			this.listNav.remove(0);
-			notifyAll();
 	}
-		
-	
-	
-	
-	
 	
 	/**
 	 * cette methode test si toutes les navettes sont pleine
@@ -105,23 +78,19 @@ public class Arret {
 	public boolean navettePleine(){
 		int i = 0;
 		if (0!=this.listNav.size()){// si la liste est vide on retourne true
-			System.out.println("print size i2 "+this.listNav.size());
-			while (this.getNav(i).getNbFestivalierCourant() == Navette.getMaxPlace() && i<getListNav().size()) {
+			while (i<getListNav().size() && this.getNav(i).getNbFestivalierCourant() == Navette.getMaxPlace()) {
 				i++;}
-			if (i==getListNav().size()){return true;}
+			if (i==getListNav().size()){return true;}//toute les navettes sont pleine
 			else {return false;}
 		}
-		else {return true;}
-	
-			
+		else {return true;}	
 	}
 	
 	/**
 	 * methode synchronized permetant au festivalier de monter dans une navette
 	 * @param client
 	 */
-	public synchronized void monterClient(Festivalier client){
-		this.veutMonter(true);
+	public void monterClient(Festivalier client){
 		while (navettePleine()){
 			try {
 				wait();
@@ -131,27 +100,40 @@ public class Arret {
 			}}
 		int i = 0;
 		while (this.getNav(i).getNbFestivalierCourant() == Navette.getMaxPlace()){
-			i++;
+			i++;//on reparcours la liste pour trouver la navette non pleine
 		}
 		getNav(i).ajoutClient(client);
-		
-		this.veutMonter(false);
-		notifyAll();
-
+		System.out.println("client monte");
 	}
 	
-	
-//	public void addClient(Festivalier festiv){
-//		this.listFest.add(festiv);
-//	}
-//	
-//	public Festivalier removClient(){
-//		return this.listFest.remove(0);
-//	}
-	
-//	public void garer(Navette nav){
-//		addNav(nav);
-//		
-//	}
+	/**
+	 * methode synchronized principal appelé par un Festivalier ou une Navette,
+	 * elle contiend un switche pour les différents cas d'utilisation,
+	 * 0:pour faire monter un festivalier dans navette 
+	 * 1:pour faire garer une navette
+	 * 2:pour faire partir une navette
+	 * @param i
+	 * @param nav
+	 * @param fest
+	 */
+	public synchronized void allinOne(int i, Navette nav, Festivalier fest){
+		switch (i) {
+		case 0:
+			//case du festivalier demandant à monter dans une navette
+			monterClient(fest);
+			break;
+		case 1:
+			//case d'une navette voulant se garer
+			garer(nav);
+			notifyAll();//reveille les festivalier en attente d'une navette
+			break;
+		case 2:
+			//case d'une navette vaulant partir
+			partir();
+			break;
+		default:
+			break;
+		}
+	}
 	
 }

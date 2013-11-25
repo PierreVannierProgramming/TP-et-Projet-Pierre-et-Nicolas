@@ -26,9 +26,10 @@ class Site {
 		this.id = i;
 		guichet = new Guichet();
 		arret = new Arret();
+		
 		}
 	/**
-	 * geter de l'identifiant du site
+	 * Getter de l'identifiant du site
 	 * @return
 	 */
 	public int getId() {

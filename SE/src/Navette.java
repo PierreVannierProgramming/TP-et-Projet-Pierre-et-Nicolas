@@ -8,7 +8,7 @@ public class Navette extends Thread {
 	private static final int nbMaxPlace = 10;
 	
 	/**
-	 * festivalier attendant une navette
+	 * festivalier attendant une navette dans cette liste de navette
 	 */
 	private ArrayList<Festivalier> listFest;
 	/**
@@ -29,11 +29,10 @@ public class Navette extends Thread {
 	public Navette (Site[] circuit){
 		this.listFest = new ArrayList<Festivalier>();
 		this.circuit = circuit;
-		this.setDaemon(true);
 	}
 	
 	/**
-	 * geter sur le nombre de passager
+	 * Getter sur le nombre de passager
 	 * @return
 	 */
 	public int getNbFestivalierCourant() {
@@ -66,23 +65,22 @@ public class Navette extends Thread {
 	public void run (){
 		int i = 0;
 		while(true){
-			this.circuit[i].arret.garer(this);
-			if (i == circuit.length-1){
-				System.out.println("festival "+this.getNbFestivalierCourant());
+			this.circuit[i].arret.allinOne(1, this, null);//la navette se gare
+			if (i == circuit.length-1){//si la navette est au festival
+				System.out.println("nombre de personne decendant au festival "+this.getNbFestivalierCourant());
 				
 				decendreClient();
 			}
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(1000);//attente dans les arrets
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println("test7");
-			this.circuit[i].arret.partir();
-			i = (i + 1)%circuit.length;
-			System.out.println("navette parti");
+			this.circuit[i].arret.allinOne(2, null, null);//la navette part du site
+			i = (i + 1)%circuit.length;//la navette va au site suivant
 		}
 	}
 		
+
 }

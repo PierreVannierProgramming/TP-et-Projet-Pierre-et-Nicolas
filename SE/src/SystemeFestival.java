@@ -1,12 +1,10 @@
 class SystemeFestival {
 
-/* Constantes (final indique que la valeur ne peut pas changer) */
+/* Constantes */
 
 static final int nbSites = 7;
 static final int nbFestivalier = 100;
-static final int nbNavette = 8;
-
-/* Ces attributs sont statiques */
+static final int nbNavette = 3;
 
 private Site[] sites = new Site[nbSites];
 private Festivalier[] clients = new Festivalier[nbFestivalier];
@@ -15,7 +13,7 @@ private Navette[] navs = new Navette[nbNavette];
 private int nbNav = 0;
 
 
-/* Cette fonction crée un seul client à la fois (à la limite aucun).
+/* Cette fonction crée un seul client à la fois.
  * Elle renvoie vrai si et seulement si un client a été créé.
  * Elle renvoie faux dès que la création des clients est terminée. */
 
@@ -59,8 +57,6 @@ private boolean nouvelleNavette() {
 	return true;
 }
 
-/* Constructeur. Il est appelé lors de l'instanciation du système d'emprunt. */
-
 /**
  * systeme creant les sites, festivaliers et navettes,
  * et lance les threads associé aux festivalers et aux navettes
@@ -79,17 +75,13 @@ SystemeFestival() {
 	/* Instanciation des navettes */
 	while(nouvelleNavette());
 	
-	
-	/* Lancement des threads associés aux clients */
-	for(i = 0; i < nbClients; i++)
-		clients[i].start();
-	
-	
 	/* Lancement des threads associés aux navettes */
 	for(i = 0; i < nbNav; i++)
 		navs[i].start();
 
-	
+	/* Lancement des threads associés aux clients */
+	for(i = 0; i < nbClients; i++)
+		clients[i].start();
 }
 
 /* Point d'entrée du programme */

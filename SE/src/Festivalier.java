@@ -1,7 +1,6 @@
 
 public class  Festivalier extends Thread {
 	
-
 	/**
 	 * site de depart
 	 */
@@ -10,10 +9,7 @@ public class  Festivalier extends Thread {
 	 * billet acheté
 	 */
 	private boolean billetAchete;
-//	/**
-//	 * cette variable indique si un client parcour la liste des navettes
-//	 */
-//	private boolean parcourList;
+
 	/**
 	 * constructeur Client, avec un site de depard, et une variable indiquant si le billet est acheté
 	 * @param SD site de depart
@@ -38,22 +34,15 @@ public class  Festivalier extends Thread {
 		}
 	}
 	
-//	/**
-//	 * seter sur parcourList
-//	 * @param test
-//	 */
-////	public void veutMonter(boolean test){
-////		this.parcourList = test;
-////	}
-	
 	/**
 	 * lancement d'un thread festivalier:
 	 * le client va au guichet du site où il se trouve, achete un billet,
 	 * si le site n'est pas le site du festival, il va à l'arret,
-	 * pour attendre une navette si elles sont toute  pleines,
+	 * pour attendre une navette si elles sont toute pleines
+	 * ou si il n'y en a pas,
 	 * sinon il monte dedans
 	 */
-	public void run (){
+	public void run(){
 		siteDepart.guichet.entrerG(this);
 		try {
 			Thread.sleep(10);
@@ -61,17 +50,11 @@ public class  Festivalier extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (siteDepart.getId() != SystemeFestival.nbSites-1){
-			System.out.println("test11");
-			
-//			this.veutMonter(true);
-			siteDepart.arret.monterClient(this);
-//			this.veutMonter(false);
-					
-			
-			System.out.println("test12");
-		}
-		System.out.println("test13");
+		if (billetAchete){//est toujours le cas dans la V1
+			if (siteDepart.getId() != SystemeFestival.nbSites-1){//si on est pas au festival
+				siteDepart.arret.allinOne(0, null, this);//cherche à monter dans une navette
+			}
+		}		
 	}
 	
 }
