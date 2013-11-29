@@ -1,0 +1,10 @@
+FUNC VOID main()
+{
+INT a, b
+WHILE a
+DO
+{
+a:=a-1
+}
+DONE
+}

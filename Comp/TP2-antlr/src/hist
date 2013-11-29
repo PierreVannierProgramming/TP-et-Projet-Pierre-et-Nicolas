@@ -1,0 +1,255 @@
+    1  ls
+    2  python
+    3  ls
+    4  cd Desktop/œ
+    5  cd Desktop/
+    6  ls
+    7  mkdir bif
+    8  cd bif/
+    9  touch test.py
+   10  vi test.py 
+   11  python test.py 
+   12  ssh 14000237@cassius.istic.univ-rennes1.fr
+   13  exit
+   14  python
+   15  exit
+   16  gcc
+   17  ls
+   18  gedit Desktop/initiation1.c
+   19  cd ..
+   20  ls
+   21  cd geek/Desktop/
+   22  gcc initiation1.c 
+   23  gedit Desktop/initiation1.c
+   24  gedit Desktop/initiation1.c &
+   25  cd Bureau
+   26  cd Desktop/
+   27  ls
+   28  nautilus
+   29  ls
+   30  cd testC/
+   31  ls
+   32  gcc initiation1.c
+   33  gedit initiation1.c &
+   34  gcc initiation1.c
+   35  ./a.out
+   36  gcc initiation1.c
+   37  ./a.out
+   38  gcc initiation1.c
+   39  ./a.out
+   40  gcc initiation1.c
+   41  ./a.out
+   42  gcc initiation1.c
+   43  ./a.out
+   44  gcc initiation1.c
+   45  ./a.out
+   46  gcc initiation1.c
+   47  ./a.out
+   48  gcc initiation1.c
+   49  ./a.out
+   50  gcc initiation1.c
+   51  ./a.out
+   52  gcc initiation1.c
+   53  ./a.out
+   54  gcc initiation1.c
+   55  ./a.out
+   56  gcc initiation1.c
+   57  ./a.out
+   58  ipconfig
+   59  ifconfig
+   60  file-roller
+   61  whereis file-roller
+   62  sudo apt-get install vlc
+   63  dconf-editor 
+   64  ssh
+   65  25003090@cassius.istic.univ-rennes1.fr
+   66  ssh 25003090@cassius.istic.univ-rennes1.fr
+   67  exit
+   68  25003090@cassius.istic.univ-rennes1.fr
+   69  ssh 25003090@cassius.istic.univ-rennes1.fr
+   70  ssh 148.60.8.1
+   71  ssh 25003090@148.60.8.1
+   72  exit
+   73  cd Desktop/
+   74  ls
+   75  cd TPcomp/
+   76  ls
+   77  cd grammaires/
+   78  ls
+   79  rm *~
+   80  ls
+   81  chmod -R 700 ../grammaires/
+   82  ./g2java.sh TP1Parser.g 
+   83  gedit g2java.sh 
+   84  ./g2java2.sh TP1Parser.g 
+   85  chmod +x g2java2.sh 
+   86  ./g2java2.sh TP1Parser.g 
+   87  gedit g2java.sh 
+   88  ./g2java2.sh TP1Parser.g 
+   89  ./javac.sh
+   90  gedit javac.sh 
+   91  ./javac.sh
+   92  sudo apt-get install javac
+   93  sudo apt-get install jde
+   94  sudo apt-get install java
+   95  javac
+   96  sudo apt-get install default-jdk
+   97  cd Desktop/
+   98  ls
+   99  cd TPcomp/grammaires/
+  100  ./javac.sh
+  101  java -jar ../antlrworks-1.4.3.jar 
+  102  cd Desktop/tp1_comp_carre_vannier/
+  103  ls
+  104  java -jar antlrworks-1.4.3.jar 
+  105  cd Desktop/
+  106  ls
+  107  cd COMPdushare/
+  108  cd ..
+  109  cd TPcomp/
+  110  ls
+  111  cd ..
+  112  mv -R TPcomp/
+  113  mv -r TPcomp/ TP1comp
+  114  mv TPcomp/ TP1comp
+  115  ls
+  116  mv COMPdushare/ TP2comp
+  117  cd TP2comp/
+  118  ls
+  119  evince slides-intro.pdf 
+  120  evince M1INFO_117_Compilation.pdf 
+  121  ls
+  122  cd COMP/
+  123  ls
+  124  cd TP2-antlr/
+  125  ls
+  126  evice tp2
+  127  evice tp2.pdf 
+  128  evince tp2.pdf 
+  129  cd 'Desktop/TP1comp (copy)'
+  130  java -jar antlrworks-1.4.3.jar 
+  131  cd '/home/geek/Documents/tp1_comp_carre_vannier/' 
+  132  java -jar antlrworks-1.4.3.jar 
+  133  cd /var/crash/
+  134  ls
+  135  rm _sbin_plymouthd.0.crash 
+  136  sudo rm _sbin_plymouthd.0.crash 
+  137  ls
+  138  man fstab
+  139  sudo gedit /etc/fstab
+  140  ls -r > lst
+  141  ls -R > lst
+  142  ls -R / > lst
+  143  gedit lst
+  144  ls -l
+  145  ls -lu
+  146  ls -luh
+  147  cd '/media/geek/83F3-F166/w/cours_SE/' 
+  148  pdf-latex
+  149  pdflatex
+  150  mkdir /usr/bin/acroread
+  151  sudo mkdir /usr/bin/acroread
+  152  ls /usr/bin/
+  153  ls /usr/bin/a*
+  154  ls /usr/bin/ac*
+  155  ls -l /usr/bin/ac*
+  156  ls -dl /usr/bin/ac*
+  157  sudo chown geek:geek /usr/bin/acroread/
+  158  ls -dl /usr/bin/ac*
+  159  sudo apt-get install texmaker
+  160  latex
+  161  pdflatex
+  162  sudo apt-get install texlive-latex-base
+  163  sudo apt-get install texmaker
+  164  texmaker
+  165  acroread
+  166  acro-read
+  167  cd '/home/geek/Desktop/' 
+  168  ./AdbeRdr9.4.2-1_i486linux_fra.bin 
+  169  acroread
+  170  top
+  171  acroread
+  172  cd /usr/bin/acroread/
+  173  ls
+  174  cd Adobe/
+  175  ls
+  176  cd Reader9/
+  177  ls
+  178  cd Reader/
+  179  ls
+  180  cd ..
+  181  ls
+  182  cd ..
+  183  ls
+  184  cd Adobe/
+  185  cd Reader9/
+  186  ls
+  187  cd bin
+  188  ./acroread 
+  189  man export
+  190  gedit .bash_aliases
+  191  acroread
+  192  gedit .bashrc
+  193  echo $PATH
+  194  gedit .bashrc
+  195  gedit .bashrc &
+  196  export $PATH=$PATH:/usr/bin/acroread/Adobe/Reader9/bin/acroread
+  197  export $PATH=$PATH:/usr/bin/acroread/Adobe/Reader9/bin/
+  198  export $PATH='$PATH:/usr/bin/acroread/Adobe/Reader9/bin/'
+  199  sudo apt-get install skype
+  200  deloll1a
+  201  sudo apt-get install skype
+  202  sudo add-apt-repository "deb http://archive.canonical.com/ $(lsb_release -sc) partner" && sudo apt-get update
+  203  sudo apt-get install skype
+  204  skype
+  205  sudo apt-get install gtalk
+  206  sudo apt-get install talkplugin
+  207  sudo apt-get install gnome-session-fallback
+  208  gedit .bash_aliases
+  209  install gnome-session-fallback
+  210  sudo apt-key update
+  211  install debian-archive-keyring
+  212  sudo apt-key update
+  213  install gnome-session-fallback
+  214  ping google.com
+  215  install scilab
+  216  gedit .bash_aliases
+  217  bugs_clear 
+  218  install scilab
+  219  scilab &
+  220  install pavucontrol
+  221  pavucontrol
+  222  scilab
+  223  bugs_clear 
+  224  cd /usr/bin/acroread/Adobe/Reader9/bin/
+  225  ls
+  226  ls -l
+  227  gedit acroread 
+  228  bugs_clear 
+  229  cd Desktop/TP2comp/COMP/TP2-antlr/
+  230  make
+  231  install eclipse
+  232  ssh cassius@istic.univ-rennes1.fr
+  233  ssh 25003090@cassius.istic.univ-rennes1.fr
+  234  install flobo-puyo
+  235  sudo gedit /boot/grub/grub.cfg 
+  236  sudo reboot
+  237  cd '/home/geek/Documents/TP2-antlr/' 
+  238  make
+  239  gedit Makefile 
+  240  make
+  241  java -cp . VslComp test.vsl
+  242  cd src/
+  243  java -cp . VslComp test.vsl
+  244  java  VslComp test.vsl
+  245  java  .:./antlr-3.5.jar VslComp test.vsl
+  246  java  antlr-3.5.jar VslComp test.vsl
+  247  java -jar antlr-3.5.jar VslComp test.vsl
+  248  java  .:./../antlr-3.5.jar VslComp test.vsl
+  249  java  ../antlr-3.5.jar VslComp test.vsl
+  250  java -cp /home/geek/Documents/TP2-antlr/antlr-3.5.jarVslComp test.vsl
+  251  gedit test.vsl
+  252  java -cp .:/home/geek/Documents/TP2-antlr/antlr-3.5.jarVslComp test.vsl
+  253  java -cp .:/home/geek/Documents/TP2-antlr/antlr-3.5.jar VslComp test.vsl
+  254  history
+  255  history >hist
