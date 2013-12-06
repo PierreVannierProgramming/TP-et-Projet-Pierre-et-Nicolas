@@ -5,6 +5,7 @@
 public class SymbDistrib {
 	private static int noTemp = 0;
 	private static int noLabel = 10;
+	private static int noLabelData = 1;
 
 	public static VarSymbol newTemp() {
 		String name = "T_" + noTemp;
@@ -15,6 +16,12 @@ public class SymbDistrib {
 	public static LabelSymbol newLabel() {
 		String name = "L" + noLabel;
 		noLabel++;
+		return new LabelSymbol(name);
+	}
+	
+	public static LabelSymbol newLabelData() {
+		String name = " $LC" + noLabelData;
+		noLabelData++;
 		return new LabelSymbol(name);
 	}
 

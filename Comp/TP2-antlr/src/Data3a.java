@@ -13,7 +13,7 @@ public class Data3a {
 	private String text;
 
 	public Data3a(String t) {
-		label = SymbDistrib.newLabel();
+		label = SymbDistrib.newLabelData();
 		text = t;
 	}
 

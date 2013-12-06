@@ -27,6 +27,14 @@ public class Code3aGenerator {
 		Inst3a i = new Inst3a(Inst3a.TAC.BEGINFUNC,null,null,null);
 		return new Code3a(i);
 	}
+	
+	/**
+	 * Generates the 3a statement: ARG t
+	 **/
+	public static Code3a genArg(Operand3a t) {
+		Inst3a i = new Inst3a(Inst3a.TAC.ARG, t, null, null);
+		return new Code3a(i);
+	}
     
 
 	/**
@@ -42,6 +50,6 @@ public class Code3aGenerator {
 		cod.append(genVar(temp));
 		cod.append(new Inst3a(op, temp, exp1.place, exp2.place));
 		return cod;
-	}
+	} 
 
 } // Code3aGenerator ***

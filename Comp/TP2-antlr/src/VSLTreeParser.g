@@ -7,7 +7,7 @@ options {
 }
 
 s [SymbolTable symTab] returns [Code3a code]
-  : e=function[symTab] { code = e; }
+  : p=program[symTab] { code = p; }
   ;
 
 expression [SymbolTable symTab] returns [ExpAttribute expAtt]
@@ -43,14 +43,117 @@ expression [SymbolTable symTab] returns [ExpAttribute expAtt]
     { expAtt = pe; }
   ;
   
-statement [SymbolTable symTab] returns [Code3a cod]
-  : ^(ASSIGN_KW e=expression[symTab] IDENT) 
-    { 
-      Type ty = e.type;
-      Operand3a id = symTab.lookup($IDENT.text);
-      cod = e.code;
-      cod.append(new Code3a(new Inst3a(Inst3a.TAC.COPY, id, e.place, null)));
+primary_exp [SymbolTable symTab] returns [ExpAttribute expAtt]
+
+  : INTEGER
+    {
+      ConstSymbol cs = new ConstSymbol(Integer.parseInt($INTEGER.text));
+      expAtt = new ExpAttribute(Type.INT, new Code3a(), cs);
     }
+  | IDENT
+    {
+      Operand3a id = symTab.lookup($IDENT.text);
+	  if (id!=null){
+		expAtt = new ExpAttribute(id.type, new Code3a(), symTab.lookup($IDENT.text));
+		}
+	  else{System.out.println("attention la variable " + $IDENT.text+ " n'est pas déclarée");}
+	}
+  | ^(FCALL IDENT {FunctionType funTy = new FunctionType(Type.INT, false);}(al=argument_list[symTab, funTy])?)
+  	{
+  	  Operand3a id = symTab.lookup($IDENT.text);
+	  if (id!=null){
+		if (((FunctionType) id.type).getArguments().size() == funTy.getArguments().size()){
+			Type ty;
+			ty = id.type;
+			VarSymbol temp = SymbDistrib.newTemp();
+			Code3a cod;
+			cod = al;
+			cod.append(new Inst3a(Inst3a.TAC.CALL, temp, id, null));
+			expAtt = new ExpAttribute(ty, cod, temp);
+			}
+		else {System.out.println("attention la fonction " + $IDENT.text+ " n'a pas le même nombre d'arguments");}
+		}
+	  else {System.out.println("attention la fonction " + $IDENT.text+ " n'est pas déclarée");}
+    }
+  |  {int tab = 0; Operand3a op = symTab.lookup("");}a=array_elem[symTab, tab, op] 
+    {	
+    	expAtt = a;
+    }
+  ;
+ 
+argument_list[SymbolTable symTab, FunctionType funTy] returns [Code3a cod]
+@init{cod = new Code3a();}
+    : (e=expression[symTab]{
+		cod.append(e.code);
+        cod.append(Code3aGenerator.genArg(e.place));
+        funTy.extend(Type.INT);
+		})+
+    ;        	
+
+array_elem [SymbolTable symTab, int tab,Operand3a op] returns [ExpAttribute expAtt ]
+    : ^(ARELEM  IDENT e=expression[symTab])
+      {
+        if (tab==0)
+        {
+        	Operand3a id = symTab.lookup($IDENT.text);
+	    	if (id!=null){ 
+	      		Type ty;
+				ty = id.type;
+        		Code3a cod;
+        		cod = e.code;
+        		VarSymbol temp = SymbDistrib.newTemp();
+        		cod.append(new Inst3a(Inst3a.TAC.TABVAR, temp, id, e.place));
+        		expAtt = new ExpAttribute(ty, cod, temp);
+        	}
+        	else {System.out.println("attention le tableau " + $IDENT.text+ " n'est pas déclarée");}
+        }
+        else if(tab==1)
+        {
+        	Operand3a id = symTab.lookup($IDENT.text);
+	    	if (id!=null){ 
+	      		Type ty;
+				ty = id.type;
+        		Code3a cod;
+        		cod = e.code;
+        		cod.append(new Inst3a(Inst3a.TAC.VARTAB, id, e.place, op));
+        		expAtt = new ExpAttribute(ty, cod, e.place);
+        	}
+        	else {System.out.println("attention le tableau " + $IDENT.text+ " n'est pas déclarée");}
+        }
+        else if(tab==2)
+        {
+        	Operand3a id = symTab.lookup($IDENT.text);
+	  		if (id!=null){
+	  			Type ty;
+				ty = id.type;
+	  			Code3a cod;
+				cod = Code3aGenerator.genArg(id);
+				cod.append(new Inst3a(Inst3a.TAC.CALL, null, SymbDistrib.builtinRead, null));
+				expAtt = new ExpAttribute(ty, cod, id);
+				}
+	 		else {System.out.println("attention le tableau " + $IDENT.text+ " n'est pas déclarée");}
+        }
+      }
+    ; 
+
+
+
+statement [SymbolTable symTab] returns [Code3a cod]
+  : ^(ASSIGN_KW e=expression[symTab] (IDENT 
+  	  { 
+        Operand3a id = symTab.lookup($IDENT.text);
+        if (id!=null)
+        {
+        	cod = e.code;
+        	cod.append(new Code3a(new Inst3a(Inst3a.TAC.COPY, id, e.place, null)));
+        }
+        else {System.out.println("attention la variable " + $IDENT.text+ " n'est pas déclarée");}
+      }
+      | {int tab = 1; cod = e.code;}a=array_elem[symTab, tab, e.place]  
+      {  
+        cod.append(a.code);
+        
+      })) 
    | ^(IF_KW e=expression[symTab]  s1=statement[symTab] ( s2=statement[symTab])? )
     {
       cod=e.code;
@@ -76,61 +179,179 @@ statement [SymbolTable symTab] returns [Code3a cod]
     }
     |b=block[symTab] 
      {cod=b;}
+    | ^(FCALL_S IDENT {FunctionType funTy = new FunctionType(Type.INT, false);}(al=argument_list[symTab, funTy])?)
+  	{
+  	  Operand3a id = symTab.lookup($IDENT.text);
+	  if (id!=null){
+		if (((FunctionType) id.type).getArguments().size() == funTy.getArguments().size()){
+			cod = al;
+			cod.append(new Inst3a(Inst3a.TAC.CALL, null, id, null));
+			}
+		else {System.out.println("attention la fonction " + $IDENT.text+ " n'a pas le même nombre d'arguments");}
+		}
+	  else {System.out.println("attention la fonction " + $IDENT.text+ " n'est pas déclarée");}
+    }
+    | ^(RETURN_KW e=expression[symTab])
+	{
+	  cod = e.code;
+	  cod.append(new Inst3a(Inst3a.TAC.RETURN, e.place, null, null));
+	}
+	| ^(READ_KW rl=read_list[symTab]) {cod = rl;}
+	| ^(PRINT_KW pl=print_list[symTab]) {cod = pl;}
   ;
+
+print_list [SymbolTable symTab] returns [Code3a cod]
+@init{cod = new Code3a();}
+    : (p=print_item[symTab]
+	{
+	  cod.append(p);
+	})+
+    ;
+
+print_item [SymbolTable symTab] returns [Code3a cod]
+@init{cod = new Code3a();}
+    : TEXT
+	{
+	  Data3a dat = new Data3a($TEXT.text);
+	  cod.appendData(dat);
+      cod.append(Code3aGenerator.genArg(dat.getLabel()));
+	  cod.append(new Inst3a(Inst3a.TAC.CALL, null, SymbDistrib.builtinPrintS, null));
+	}
+    | e=expression[symTab]
+	{
+      cod = e.code;
+      cod.append(Code3aGenerator.genArg(e.place));
+	  cod.append(new Inst3a(Inst3a.TAC.CALL, null, SymbDistrib.builtinPrintN, null));
+	}
+    ;
+
+read_list [SymbolTable symTab] returns [Code3a cod]
+@init{cod = new Code3a();}
+    : (r=read_item[symTab]
+	{
+	  cod.append(r);
+	})+
+    ;
+
+read_item [SymbolTable symTab] returns [Code3a cod]
+    : IDENT
+	{
+	  Operand3a id = symTab.lookup($IDENT.text);
+	  if (id!=null){
+		cod = Code3aGenerator.genArg(id);
+		cod.append(new Inst3a(Inst3a.TAC.CALL, null, SymbDistrib.builtinRead, null));
+		}
+	  else {System.out.println("attention la variable " + $IDENT.text+ " n'est pas déclaré");}
+	}
+	|  {int tab = 2; Operand3a op = symTab.lookup("");} a=array_elem[symTab, tab, op] {cod = a.code;}
+    ;
+    
   
-type returns [FunctionType ty]
+type returns [Type ty]
     : INT_KW {
-    	ty=new FunctionType(Type.INT);
+    	ty=Type.INT;
     	}
     | VOID_KW {
-    	ty=new FunctionType(Type.VOID);
+    	ty=Type.VOID;
     	}
     ;
   
-param[SymbolTable symTab] returns [Code3a cod]
+param[SymbolTable symTab, FunctionType funTy] returns [Code3a cod]
     : IDENT
       {
       Operand3a id = symTab.lookup($IDENT.text);
-        if (id == null){
+        if (id == null || id.isParam()){
         	VarSymbol vs = new VarSymbol(Type.INT, $IDENT.text, symTab.getScope());
+        	vs.setParam();
         	symTab.insert($IDENT.text, vs);
         	cod = Code3aGenerator.genVar(vs);
+        	funTy.extend(Type.INT);
         	}
-        else {System.out.println("attention la variable " + $IDENT.text+ "est déclaré plusieurs fois");}
+        else {System.out.println("attention la variable " + $IDENT.text+ " est déclaré plusieurs fois");}
       }
     | ^(ARRAY IDENT)
+      {
+      Operand3a id = symTab.lookup($IDENT.text);
+        if (id == null){
+        	ArrayType aty = new ArrayType(Type.INT, 100);
+        	VarSymbol vs = new VarSymbol(aty, $IDENT.text, symTab.getScope());
+        	vs.setParam();
+        	symTab.insert($IDENT.text, vs);
+        	cod = Code3aGenerator.genVar(vs);
+        	funTy.extend(Type.INT);
+        	}
+        else {System.out.println("attention le tableau " + $IDENT.text+ " est déclaré plusieurs fois");}
+      }
     ;
 
-param_list[SymbolTable symTab] returns [Code3a cod]
+param_list[SymbolTable symTab, FunctionType funTy] returns [Code3a cod]
 @init{cod = new Code3a();}
-    : ^(PARAM (p=param[symTab]{
+    : ^(PARAM (p=param[symTab, funTy]{
     cod.append(p);    
     })*)
 
     ;
 
 function[SymbolTable symTab] returns [Code3a cod]
-@init{cod = new Code3a();}
     : ^(FUNC_KW t=type IDENT {
+    	FunctionType funTy = new FunctionType(t, false);
+    	}pl=param_list[symTab, funTy] 
+    	{
+    	Operand3a id = symTab.lookup($IDENT.text);
+        if (id == null || (
+        	((FunctionType) id.type).prototype &&
+        	(((FunctionType) id.type).getReturnType() == t) &&
+        	(((FunctionType) id.type).getArguments().equals(funTy.getArguments()))
+        	)
+        	){
+        	symTab.enterScope();
+        	LabelSymbol labelFunc = new LabelSymbol($IDENT.text);
+        	cod = new Code3a(new Inst3a(Inst3a.TAC.LABEL,labelFunc,null,null));
+        	FunctionSymbol fs = new FunctionSymbol(labelFunc, funTy);
+        	symTab.insert($IDENT.text, fs);
+        	cod.append(Code3aGenerator.genFunction());
+        	cod.append(pl);
+        	}
+        else {System.out.println("attention la fonction " + $IDENT.text+ " est déclarée plusieurs fois ou n'est pas conforme à son prototype");}
+    	}
+    	^(BODY st=statement[symTab])) 
+    		{
+    		cod.append(st);
+    		cod.append(new Code3a(new Inst3a(Inst3a.TAC.ENDFUNC,null,null,null)));
+    		}
+    ;
+    
+proto[SymbolTable symTab] returns [Code3a cod]
+    : ^(PROTO_KW t=type IDENT {
+    	FunctionType funTy = new FunctionType(t);
+    	}pl=param_list[symTab, funTy]) {
     	Operand3a id = symTab.lookup($IDENT.text);
         if (id == null){
         	LabelSymbol labelFunc = new LabelSymbol($IDENT.text);
-        	cod = new Code3a(new Inst3a(Inst3a.TAC.LABEL,labelFunc,null,null));
-        	FunctionSymbol fs = new FunctionSymbol(labelFunc,t);
+        	FunctionSymbol fs = new FunctionSymbol(labelFunc, funTy);
         	symTab.insert($IDENT.text, fs);
-        	cod.append(Code3aGenerator.genFunction());
         	}
-        else {System.out.println("attention la fonction " + $IDENT.text+ "est déclarée plusieurs fois");}
-
+        else {System.out.println("attention le proto " + $IDENT.text+ " est déclaré plusieurs fois");}
         }
-        pl=param_list[symTab] {
-    		cod.append(pl);
+    ;
+    
+unit[SymbolTable symTab] returns [Code3a cod]
+    : f=function[symTab]{
+    	cod=f;
     	}
-    	 ^(BODY st=statement[symTab]) {
-    		cod.append(st);
-    	})
+    | p=proto[symTab]{
+    	cod=p;
+    	}
+    ;
+    
+program[SymbolTable symTab] returns [Code3a cod]
+@init{cod = new Code3a();}
+    : ^(PROG (u=unit[symTab] {
+    	cod.append(u);
+    	})+)
     ;
 
+    
 inst_list [SymbolTable symTab] returns [Code3a cod]
 @init{cod = new Code3a();}
     : ^(INST (st=statement[symTab]{
@@ -174,23 +395,20 @@ decl_item [SymbolTable symTab] returns [Code3a cod]
         	symTab.insert($IDENT.text, vs);
         	cod = Code3aGenerator.genVar(vs);
         	}
-        else {System.out.println("attention la variable " + $IDENT.text+ "est déclaré plusieurs fois");}
+        else {System.out.println("attention la variable " + $IDENT.text+ " est déclaré plusieurs fois");}
      }
     | ^(ARDECL IDENT INTEGER)
+	  {
+		Operand3a id = symTab.lookup($IDENT.text);
+		if (id == null){
+			ArrayType aty = new ArrayType(Type.INT, Integer.parseInt($INTEGER.text));
+			VarSymbol vs = new VarSymbol(aty, $IDENT.text, symTab.getScope());
+        	symTab.insert($IDENT.text, vs);
+        	cod = Code3aGenerator.genVar(vs);
+			}
+		else {System.out.println("attention une variable de même nom est déja déclaré.");}
+	  }
 
     ;
-
  	  
   
-primary_exp [SymbolTable symTab] returns [ExpAttribute expAtt]
-  : INTEGER
-    {
-      ConstSymbol cs = new ConstSymbol(Integer.parseInt($INTEGER.text));
-      expAtt = new ExpAttribute(Type.INT, new Code3a(), cs);
-    }
-  | IDENT
-    {
-      Operand3a id = symTab.lookup($IDENT.text);
-      expAtt = new ExpAttribute(id.type, new Code3a(), symTab.lookup($IDENT.text));
-    }
-  ;

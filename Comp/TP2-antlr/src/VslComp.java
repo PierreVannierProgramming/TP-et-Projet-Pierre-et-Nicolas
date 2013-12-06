@@ -50,7 +50,7 @@ public class VslComp {
 			// currently 'expression'.
 			// *** NOTE: the following line must be changed whenever the main
 			// rule in VSLTreeParser.g is modified. ***
-			VSLParser.unit_return r = parser.unit();
+			VSLParser.program_return r = parser.program();
 			// The parser produces an AST.
 			CommonTree t = (CommonTree) r.getTree();
 			// If debugging is on, this prints the resulting tree in LISP

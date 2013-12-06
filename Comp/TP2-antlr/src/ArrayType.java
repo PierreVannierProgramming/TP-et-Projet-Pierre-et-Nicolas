@@ -24,6 +24,10 @@ class ArrayType extends Type {
 		return length;
 	}
 
+	public Type getType() {
+		return type;
+	}
+	
 	@Override
 	public boolean isCompatible(Type t) {
 		if (this == t)
